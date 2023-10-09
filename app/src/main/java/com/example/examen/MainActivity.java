@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
                             ostream.flush();
                             ostream.close();
                             Toast.makeText(MainActivity.this,"Imagen guardada en "+file,Toast.LENGTH_SHORT).show();
+                            enviar(singature);
                             singature.clearView();
-                            enviar();
 
                         } catch (Exception e) {
                             e.printStackTrace();
