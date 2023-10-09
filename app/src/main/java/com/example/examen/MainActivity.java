@@ -27,7 +27,7 @@ import com.github.gcacace.signaturepad.views.SignaturePad;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
+
 
 public class MainActivity extends AppCompatActivity {
     private int STORAGE_PERMISSION_CODE=1;
@@ -47,21 +47,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
-                    Bitmap bitmap=Bitmap.createBitmap(besitos.getWidth(),besitos.getHeight(),Bitmap.Config.RGBA_F16);
-                    Canvas canvas=new Canvas(bitmap);
-                    besitos.draw(canvas);
-                    File file = new File(Environment.getExternalStorageDirectory(),"/Download/signature.png");
-                    try {
-                        file.createNewFile();
-                        FileOutputStream ostream = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, ostream);
-                        ostream.flush();
-                        ostream.close();
-                        Toast.makeText(MainActivity.this,"Imagen guardada en "+file,Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e(getClass().getSimpleName(),"error",e);
-                    }
+                    if (!singature.isEmpty())
+                    {
+                        Bitmap bitmap=Bitmap.createBitmap(besitos.getWidth(),besitos.getHeight(),Bitmap.Config.RGBA_F16);
+                        Canvas canvas=new Canvas(bitmap);
+                        besitos.draw(canvas);
+                        File file = new File(Environment.getExternalStorageDirectory(),"/Download/signature.png");
+
+                        try {
+                            file.createNewFile();
+                            FileOutputStream ostream = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, ostream);
+                            ostream.flush();
+                            ostream.close();
+                            Toast.makeText(MainActivity.this,"Imagen guardada en "+file,Toast.LENGTH_SHORT).show();
+                            singature.clearView();
+                            enviar();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.e(getClass().getSimpleName(),"error",e);
+                        }
+                    }else Toast.makeText(MainActivity.this,"Firme primero antes de enviar.",Toast.LENGTH_LONG).show();
+
+
 
 
                 } else {
@@ -96,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    private void enviar() {
 
     }
 
@@ -138,7 +151,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 }
