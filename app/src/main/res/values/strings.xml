@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">examen</string>
+    <string name="restaurante">Restaurante</string>
+    <string name="hola_mundo_as">Hola Mundo (AS)</string>
+    <string name="appsuma_as">AppSuma (AS)</string>
+    <string name="appsmrd">AppSMRD</string>
+    <string name="caluladora_de_edad">Caluladora de edad</string>
+    <string name="portafolio">Portafolio</string>
+    <string name="kevin_alexander_lerma_zamaniego_21041589">Kevin Alexander Lerma Zamaniego 21041589</string>
+    <string name="start_new">New</string>
+    <string name="brush">Brush</string>
+    <string name="erase">Erase</string>
+    <string name="save">Save</string>
+    <string name="paint">Paint</string>
+    <string name="black">#000000</string>
+</resources>
