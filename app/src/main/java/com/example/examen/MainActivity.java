@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void enviar() {
+    private void enviar(SignaturePad signature) {
 
     }
 
