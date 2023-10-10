@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn_enviar=findViewById(R.id.enviar);
         Button btn_borrar=findViewById(R.id.borrar);
         SignaturePad singature= findViewById(R.id.firma);
-        View besitos=findViewById(R.id.firma);
+        View vista=findViewById(R.id.firma);
 
         btn_enviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
                     if (!singature.isEmpty())
                     {
-                        Bitmap bitmap=Bitmap.createBitmap(besitos.getWidth(),besitos.getHeight(),Bitmap.Config.RGBA_F16);
+                        Bitmap bitmap=Bitmap.createBitmap(vista.getWidth(),vista.getHeight(),Bitmap.Config.RGBA_F16);
                         Canvas canvas=new Canvas(bitmap);
-                        besitos.draw(canvas);
+                        vista.draw(canvas);
                         File file = new File(Environment.getExternalStorageDirectory(),"/Download/signature.png");
 
                         try {
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             ostream.flush();
                             ostream.close();
                             Toast.makeText(MainActivity.this,"Imagen guardada en "+file,Toast.LENGTH_SHORT).show();
-                            enviar(singature);
+                            enviar();
                             singature.clearView();
 
                         } catch (Exception e) {
@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void enviar(SignaturePad signature) {
-
+    private void enviar() {
+        
     }
 
     private void requestStoragePermission() {
