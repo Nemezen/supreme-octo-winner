@@ -1,5 +1,4 @@
 package com.example.examen;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -8,26 +7,23 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.github.gcacace.signaturepad.views.SignaturePad;
-
 import java.io.File;
 import java.io.FileOutputStream;
-
 
 public class MainActivity extends AppCompatActivity {
     private int STORAGE_PERMISSION_CODE=1;
@@ -37,11 +33,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn_abrirsitio1=findViewById(R.id.act1);
         Button btn_enviar=findViewById(R.id.enviar);
         Button btn_borrar=findViewById(R.id.borrar);
         SignaturePad singature= findViewById(R.id.firma);
         View vista=findViewById(R.id.firma);
+        Spinner puestos=findViewById(R.id.spinner);
+        String objetos[]= new String[]{"Seleccione","Contador","Cocinero","Recursos Humanos","Sistemas","Administrativo","Marketing"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, objetos);
+        puestos.setAdapter(adapter);
 
         btn_enviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
                         Bitmap bitmap=Bitmap.createBitmap(vista.getWidth(),vista.getHeight(),Bitmap.Config.RGBA_F16);
                         Canvas canvas=new Canvas(bitmap);
                         vista.draw(canvas);
-                        File file = new File(Environment.getExternalStorageDirectory(),"/Download/signature.png");
-
+                        File file = new File(Environment.getExternalStorageDirectory(),"/Download/"+System.currentTimeMillis());
                         try {
                             file.createNewFile();
                             FileOutputStream ostream = new FileOutputStream(file);
@@ -84,28 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 singature.clear();
             }
         });
-        btn_abrirsitio1.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                String sitio1="https://sites.google.com/view/empleadin/p%C3%A1gina-principal";
-                try {
-                    // Crea un Intent para abrir un navegador web externo
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(sitio1));
-
-                    // Verifica si hay aplicaciones que pueden manejar el Intent
-                    if (intent.resolveActivity(getPackageManager()) == null)
-                        Log.e("MiApp", "No se encontró una aplicación para manejar el Internet.");
-                    else {
-                        startActivity(intent);
-                    }
-                } catch (Exception e) {
-                    // Captura y registra cualquier excepción que pueda ocurrir
-                    e.printStackTrace();
-                    Log.e("MiApp", "Error al abrir el navegador: " + e.getMessage());
-                }
-            }
-        });
-
     }
 
     private void enviar() {
