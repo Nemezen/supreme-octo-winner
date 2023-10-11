@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
             }else{
                 Toast.makeText(this,"Denegado",Toast.LENGTH_SHORT).show();
-
             }
         }
     }

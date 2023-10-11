@@ -13,4 +13,6 @@
     <string name="save">Save</string>
     <string name="paint">Paint</string>
     <string name="black">#000000</string>
+    <string name="nombre">Nombre</string>
+    <string name="no_empleado">Noº empleado</string>
 </resources>
