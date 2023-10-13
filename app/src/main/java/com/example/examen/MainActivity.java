@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.github.gcacace.signaturepad.views.SignaturePad;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EditText nombre=findViewById(R.id.editText);
+        EditText empleado=findViewById(R.id.editText2);
+        Spinner puesto=findViewById(R.id.spinner);
         Button btn_enviar=findViewById(R.id.enviar);
         Button btn_borrar=findViewById(R.id.borrar);
         SignaturePad singature= findViewById(R.id.firma);
@@ -41,13 +45,16 @@ public class MainActivity extends AppCompatActivity {
         String objetos[]= new String[]{"Seleccione","Contador","Cocinero","Recursos Humanos","Sistemas","Administrativo","Marketing"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, objetos);
         puestos.setAdapter(adapter);
-
         btn_enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
-                    if (!singature.isEmpty())
+                    String nombre_empleado= String.valueOf(nombre.getText());
+                    String no_empleado= String.valueOf(empleado.getText());
+                    String puesto_empleado= puesto.getTransitionName();
+                    if (!singature.isEmpty() && !nombre_empleado.isEmpty() && !no_empleado.isEmpty() && !puesto_empleado.isEmpty())
                     {
+
                         Bitmap bitmap=Bitmap.createBitmap(vista.getWidth(),vista.getHeight(),Bitmap.Config.RGBA_F16);
                         Canvas canvas=new Canvas(bitmap);
                         vista.draw(canvas);
@@ -59,14 +66,14 @@ public class MainActivity extends AppCompatActivity {
                             ostream.flush();
                             ostream.close();
                             Toast.makeText(MainActivity.this,"Imagen guardada en "+file,Toast.LENGTH_SHORT).show();
-                            enviar();
                             singature.clearView();
+                            enviar(nombre_empleado,no_empleado,puesto_empleado);
 
                         } catch (Exception e) {
                             e.printStackTrace();
                             Log.e(getClass().getSimpleName(),"error",e);
                         }
-                    }else Toast.makeText(MainActivity.this,"Firme primero antes de enviar.",Toast.LENGTH_LONG).show();
+                    }else Toast.makeText(MainActivity.this,"Favor de llenar todos los campos.",Toast.LENGTH_LONG).show();
 
 
 
@@ -84,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void enviar() {
+    private void enviar(String nombre, String puesto, String empleado ) {
+
         
     }
 
