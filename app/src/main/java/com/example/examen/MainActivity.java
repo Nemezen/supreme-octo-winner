@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.Log;
@@ -23,8 +24,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.github.gcacace.signaturepad.views.SignaturePad;
+
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private int STORAGE_PERMISSION_CODE=1;
@@ -58,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         Bitmap bitmap=Bitmap.createBitmap(vista.getWidth(),vista.getHeight(),Bitmap.Config.RGBA_F16);
                         Canvas canvas=new Canvas(bitmap);
                         vista.draw(canvas);
-                        File file = new File(Environment.getExternalStorageDirectory(),"/Download/"+System.currentTimeMillis());
+                        File file = new File(Environment.getExternalStorageDirectory(),"/Download/"+no_empleado);
                         try {
                             file.createNewFile();
                             FileOutputStream ostream = new FileOutputStream(file);
@@ -74,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
                             Log.e(getClass().getSimpleName(),"error",e);
                         }
                     }else Toast.makeText(MainActivity.this,"Favor de llenar todos los campos.",Toast.LENGTH_LONG).show();
-
-
-
-
                 } else {
                     requestStoragePermission();
                 }
@@ -91,9 +92,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void enviar(String nombre, String puesto, String empleado ) {
+    private void enviar(String nombre, String puesto, String empleado) throws IOException {
+        File file= new File(Environment.getExternalStorageDirectory(),"/Download/"+empleado+".png");
+        String fileName = file.getAbsolutePath();
+        Bitmap original = BitmapFactory.decodeStream(getAssets().open(fileName));
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        original.compress(Bitmap.CompressFormat.PNG, 100, out);
+        String foto=original.toString();
 
-        
+        String url="https://script.google.com/macros/s/AKfycbwj-mR9s_2EBAYWCIzu9j9VckAXQ2ctAcbLWd_3w5ZbFo23w4upxQd0HKyevoFiaHCs9Q/exec";
+        url=url+"action=create&nombre="+nombre+"&puesto="+puesto+"&noempleado="+empleado+"&firma"+foto;
+
     }
 
     private void requestStoragePermission() {
